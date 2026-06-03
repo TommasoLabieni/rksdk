@@ -24,7 +24,7 @@ pre_build_hook()
 			"$RK_SCRIPTS_DIR/mk-rootfs.sh" yocto-config
 			LANG=en_US.UTF-8 LANGUAGE=en_US.en LC_ALL=en_US.UTF-8 \
 				/bin/bash -c "cd $YOCTO_DIR; \
-					source oe-init-build-env; \
+					source poky/oe-init-build-env; \
 					PS1='\u@\h:\w (yocto-$RK_CHIP)\$ ' \
 					/bin/bash -norc"
 			;;
