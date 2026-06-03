@@ -106,9 +106,10 @@ build_hook()
 	message "${RK_UBOOT_TOOLCHAIN:-gcc}"
 	echo
 
-	# Suppress GCC 13+ warnings that are errors in this old U-Boot fork
-	UBOOT_KCFLAGS="-Wno-enum-int-mismatch -Wno-maybe-uninitialized"
-	export UMAKE="./make.sh CROSS_COMPILE=$RK_UBOOT_TOOLCHAIN KCFLAGS='$UBOOT_KCFLAGS'"
+	# Suppress GCC 13+ warnings that are errors in this old U-Boot fork.
+	# Must be exported, not passed as a make.sh arg (make.sh parses args as defconfigs).
+	export KCFLAGS="-Wno-enum-int-mismatch -Wno-maybe-uninitialized"
+	export UMAKE="./make.sh CROSS_COMPILE=$RK_UBOOT_TOOLCHAIN"
 
 	if [ "$DRY_RUN" ]; then
 		notice "Commands of building U-Boot:"
