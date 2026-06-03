@@ -7,7 +7,7 @@
 
   Usage:
     mkdir rksdk && cd rksdk
-    repo init -u https://github.com/your-org/rksdk -b main -m manifests/default.xml
+    repo init -u https://github.com/your-org/rksdk -b master -m manifests/default.xml
     repo sync -j8
 -->
 <manifest>
@@ -31,7 +31,7 @@
   <project name="TommasoLabieni/rksdk"
            path="."
            remote="github"
-           revision="refs/heads/main"
+           revision="refs/heads/master"
            clone-depth="1"/>
 
   <!-- ============================================================

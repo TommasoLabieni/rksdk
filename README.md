@@ -37,7 +37,7 @@ The build system searches that directory for a GCC binary matching
 
 ```bash
 mkdir rksdk && cd rksdk
-repo init -u https://github.com/TommasoLabieni/rksdk -b main -m manifests/default.xml
+repo init -u https://github.com/TommasoLabieni/rksdk -b master -m manifests/default.xml
 repo sync -j8
 ```
 
@@ -397,7 +397,7 @@ git init .
 git remote add origin https://github.com/TommasoLabieni/rksdk.git
 git add .
 git commit -m "Initial SDK"
-git push -u origin main
+git push -u origin master
 ```
 
 After pushing, replace `TommasoLabieni/rksdk` on line 26 of
@@ -406,6 +406,6 @@ From then on any new machine only needs:
 
 ```bash
 mkdir rksdk && cd rksdk
-repo init -u https://github.com/TommasoLabieni/rksdk -b main -m manifests/default.xml
+repo init -u https://github.com/TommasoLabieni/rksdk -b master -m manifests/default.xml
 repo sync -j8
 ```
