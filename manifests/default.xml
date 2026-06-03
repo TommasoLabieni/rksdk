@@ -28,7 +28,7 @@
 
   <!-- Private repos via SSH (requires SSH key configured for GitHub) -->
   <remote name="github-ssh"
-          fetch="git@github.com:"
+          fetch="ssh://git@github.com"
           review="https://github.com"/>
 
   <!-- ============================================================
