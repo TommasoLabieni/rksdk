@@ -207,7 +207,11 @@ get_toolchain()
 		TC_PATTERN="$TC_ARCH-$TC_VENDOR-$TC_OS-gcc"
 	fi
 	notice "Toolchain pattern for $MODULE: $TC_PATTERN" >&2
-	GCC="$(find "$TC_DIR" -name "*gcc" | grep -m 1 "/$TC_PATTERN$" || true)"
+	GCC="$(find "$TC_DIR" -name "*gcc" 2>/dev/null | grep -m 1 "/$TC_PATTERN$" || true)"
+	if [ ! -x "$GCC" ] && [ "$TC_ARCH" = "aarch64" ] && [ "$TC_OS" = "linux" ]; then
+		"$RK_SCRIPTS_DIR/download-toolchain.sh" "$TC_DIR" >&2 && \
+			GCC="$(find "$TC_DIR" -name "*gcc" | grep -m 1 "/$TC_PATTERN$" || true)"
+	fi
 	if [ ! -x "$GCC" ]; then
 		{
 			error "No prebuilt GCC toolchain for $MODULE!"
