@@ -123,7 +123,7 @@ build_yocto()
 
 	build_yocto_conf
 
-	source oe-init-build-env build
+	source poky/oe-init-build-env build
 
 	LANG=en_US.UTF-8 LANGUAGE=en_US.en LC_ALL=en_US.UTF-8 \
 		bitbake core-image-minimal -C rootfs
