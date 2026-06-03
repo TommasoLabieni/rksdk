@@ -1,0 +1,23 @@
+# Build artifacts
+output/
+*.log
+
+# repo tool internal state
+.repo/
+
+# Directories populated by repo sync — not SDK content
+kernel-6.1/
+u-boot/
+rkbin/
+rtos/
+hal/
+yocto/
+uefi/
+tools/
+prebuilts/
+
+# Runtime chip-selection symlink (set by build.sh chip, not committed)
+device/rockchip/.chip
+
+# Editor / tooling
+.claude/

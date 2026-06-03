@@ -1,0 +1,13 @@
+#
+
+menu "Other configurations"
+
+config RK_OVERLAY
+	bool "overlays for rootfs"
+	depends on RK_KERNEL
+	default y
+
+config RK_EXTRA_CONFIGS
+	string "extra custom configs"
+
+endmenu # Others

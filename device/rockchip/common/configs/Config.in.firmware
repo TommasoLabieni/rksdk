@@ -1,0 +1,18 @@
+#
+
+menu "Firmware"
+
+config RK_PARAMETER
+	string "parameter (Rockchip partition table file)"
+	default "parameter.txt"
+	help
+	  Name of the parameter file under <RK_CHIP_DIR>/.
+
+config RK_USE_FIT_IMG
+	bool "use FIT (Flattened Image Tree) image"
+	default y
+
+config RK_UPDATE
+	bool "pack update.img (RKDevTool flash package)"
+
+endmenu # Firmware

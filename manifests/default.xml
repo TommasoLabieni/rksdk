@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Repo manifest for Rockchip Linux SDK (simplified, open-source sources).
+
+  All repositories point to official public mirrors where available.
+  Proprietary binaries (rkbin) still come from Rockchip's own GitHub.
+
+  Usage:
+    mkdir rksdk && cd rksdk
+    repo init -u https://github.com/your-org/rksdk -b main -m manifests/default.xml
+    repo sync -j8
+-->
+<manifest>
+
+  <!-- ============================================================
+       Default remote / revision
+       ============================================================ -->
+  <default remote="github" revision="refs/heads/master" sync-j="4"/>
+
+  <!-- ============================================================
+       Remotes
+       ============================================================ -->
+  <remote name="github"
+          fetch="https://github.com"
+          review="https://github.com"/>
+
+  <!-- ============================================================
+       Build system (this SDK repo) — synced to workspace root
+       Replace your-org/rksdk with your actual GitHub repo path.
+       ============================================================ -->
+  <project name="your-org/rksdk"
+           path="."
+           remote="github"
+           revision="refs/heads/main"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       Kernel — Rockchip downstream 6.1 (open source, GitHub mirror)
+       ============================================================ -->
+  <project name="rockchip-linux/kernel"
+           path="kernel-6.1"
+           remote="github"
+           revision="refs/heads/develop-6.1"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       U-Boot — Rockchip downstream (open source, GitHub mirror)
+       ============================================================ -->
+  <project name="rockchip-linux/u-boot"
+           path="u-boot"
+           remote="github"
+           revision="refs/heads/next-dev-v2017.09"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       rkbin — Rockchip proprietary binaries (BL31, DDR init, etc.)
+       No open-source alternative exists for these blobs.
+       ============================================================ -->
+  <project name="rockchip-linux/rkbin"
+           path="rkbin"
+           remote="github"
+           revision="refs/heads/master"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       RT-Thread RTOS (open source)
+       ============================================================ -->
+  <project name="RT-Thread/rt-thread"
+           path="rtos"
+           remote="github"
+           revision="refs/heads/master"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       HAL — Rockchip Hardware Abstraction Layer (open source)
+       ============================================================ -->
+  <project name="rockchip-linux/hal"
+           path="hal"
+           remote="github"
+           revision="refs/heads/master"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       Yocto — meta layers
+       ============================================================ -->
+  <!-- Poky (OpenEmbedded reference distro) -->
+  <project name="yoctoproject/poky"
+           path="yocto/poky"
+           remote="github"
+           revision="refs/heads/scarthgap"
+           clone-depth="1"/>
+
+  <!-- OpenEmbedded meta layers -->
+  <project name="openembedded/meta-openembedded"
+           path="yocto/meta-openembedded"
+           remote="github"
+           revision="refs/heads/scarthgap"
+           clone-depth="1"/>
+
+  <!-- Rockchip Yocto BSP layer (open source) -->
+  <project name="rockchip-linux/meta-rockchip"
+           path="yocto/meta-rockchip"
+           remote="github"
+           revision="refs/heads/master"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       Tools — Rockchip host tools (upgrade_tool, etc.)
+       ============================================================ -->
+  <project name="rockchip-linux/tools"
+           path="tools"
+           remote="github"
+           revision="refs/heads/master"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       UEFI — Rockchip EDK2 fork (open source)
+       ============================================================ -->
+  <project name="rockchip-linux/edk2"
+           path="uefi"
+           remote="github"
+           revision="refs/heads/master"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       Prebuilt toolchains
+       Not managed by repo — too large for git.
+       Download Arm GNU Toolchain from:
+         https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads
+       and unpack to prebuilts/gcc/linux-x86/aarch64/
+       ============================================================ -->
+
+</manifest>

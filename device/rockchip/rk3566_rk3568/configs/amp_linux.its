@@ -1,0 +1,62 @@
+/* SPDX-License-Identifier: BSD-3-Clause */
+/*
+ * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
+ */
+
+/dts-v1/;
+/ {
+	description = "FIT source file for RK3568 AMP";
+	#address-cells = <1>;
+
+	images {
+		amp3 {
+			description  = "rtt-cpu3";
+			data         = /incbin/("cpu3.bin");
+			type         = "firmware";
+			compression  = "none";
+			arch         = "arm64";
+			thumb        = <0>;
+			hyp          = <0>;
+			udelay       = <10000>;
+			cpu          = <0x300>;
+
+			compile {
+				size         = <0x00800000>;
+				sram_start   = <0xfdcc0000>;
+				sram_size    = <0x00008000>;
+				sys          = "rtt";
+				core         = "ap";
+				rtt_config   = "board/rk3568_evb/defconfig";
+				rtt_exec     = "prebuilts/gcc/linux-x86/aarch64/arm-gnu-toolchain-13.2.Rel1-x86_64-aarch64-none-elf/bin";
+				cc           = "prebuilts/gcc/linux-x86/aarch64/arm-gnu-toolchain-13.2.Rel1-x86_64-aarch64-none-elf/bin/aarch64-none-elf-";
+			};
+
+			hash {
+				algo = "sha256";
+			};
+		};
+	};
+
+	share {
+		shm_base        = <0x07400000>;
+		shm_size        = <0x00400000>;
+		rpmsg_base      = <0x07800000>;
+		rpmsg_size      = <0x00400000>;
+	};
+
+	configurations {
+		default = "conf";
+		conf {
+			description = "RK3568 AMP images";
+			rollback-index = <0x0>;
+			loadables = "amp3";
+
+			signature {
+				algo = "sha256,rsa2048";
+				padding = "pss";
+				key-name-hint = "dev";
+				sign-images = "loadables";
+			};
+		};
+	};
+};

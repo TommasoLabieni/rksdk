@@ -1,0 +1,80 @@
+#
+
+menuconfig RK_YOCTO
+	bool "Yocto"
+	default y
+
+if RK_YOCTO
+
+choice
+	prompt "local config"
+
+config RK_YOCTO_CFG_DEFAULT
+	bool "auto generated"
+
+config RK_YOCTO_CFG_CUSTOM
+	bool "custom"
+	help
+	  Use a custom local.conf file from <RK_CHIP_DIR>.
+
+endchoice # yocto local config
+
+config RK_YOCTO_CFG
+	string "custom local config"
+	depends on RK_YOCTO_CFG_CUSTOM
+	default "yocto.conf"
+	help
+	  Name of custom local config file under $RK_CHIP_DIR.
+
+if RK_YOCTO_CFG_DEFAULT
+
+config RK_YOCTO_MACHINE
+	string "machine name"
+	default "rockchip-rk3399-sapphire-excavator" if RK_CHIP_FAMILY = "rk3399"
+	default "rockchip-rk3568-evb"  if RK_CHIP_FAMILY = "rk3566_rk3568"
+	default "rockchip-rk3588-evb"  if RK_CHIP_FAMILY = "rk3588"
+	default "rockchip-${RK_CHIP}-evb"
+	help
+	  Basename of machine file under yocto/meta-rockchip/conf/machine/.
+
+config RK_YOCTO_CHROMIUM
+	bool "chromium browser"
+	depends on RK_CHIP_HAS_GPU
+	default y
+
+config RK_YOCTO_MULTIMEDIA
+	bool "multimedia (gstreamer, etc.)"
+	default y
+
+config RK_YOCTO_DISPLAY_PLATFORM
+	string
+	default "wayland" if RK_YOCTO_DISPLAY_PLATFORM_WAYLAND
+	default "x11"    if RK_YOCTO_DISPLAY_PLATFORM_X11
+
+choice
+	prompt "display platform"
+
+config RK_YOCTO_DISPLAY_PLATFORM_WAYLAND
+	bool "wayland (weston)"
+
+config RK_YOCTO_DISPLAY_PLATFORM_X11
+	bool "x11"
+
+config RK_YOCTO_DISPLAY_PLATFORM_NONE
+	bool "none"
+
+endchoice # yocto display platform
+
+endif # yocto cfg default
+
+config RK_YOCTO_EXTRA_CFG
+	string "extra custom local config"
+	help
+	  Extra local config file name under $RK_CHIP_DIR.
+
+config RK_YOCTO_USBMOUNT
+	bool "usbmount (auto-mount USB/SD)"
+	default y
+
+endif # Yocto
+endmenuconfig # Yocto

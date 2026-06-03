@@ -1,0 +1,26 @@
+Build hook scripts are sourced in numeric order by build.sh.
+Each script exposes well-known functions:
+
+  usage_hook()      -- print one-line help entry
+  clean_hook()      -- clean this component's outputs
+  init_hook()       -- run at init stage (config/env setup)
+  pre_build_hook()  -- run before build (configure, menuconfig, etc.)
+  build_hook()      -- run at build stage
+  post_build_hook() -- run after build (pack, release, etc.)
+
+Scripts also declare which commands they handle:
+  INIT_CMDS, PRE_BUILD_CMDS, BUILD_CMDS, POST_BUILD_CMDS
+
+Execution order:
+  00-config.sh   -- KConfig / defconfig management
+  10-kernel.sh   -- kernel build
+  25-amp.sh      -- AMP (HAL + RT-Thread) build
+  30-rootfs.sh   -- Yocto rootfs build
+  70-loader.sh   -- U-Boot / loader build
+  80-firmware.sh -- firmware packaging
+  99-all.sh      -- 'all' target, release
+
+Chip-specific hooks can be added to:
+  device/rockchip/rk3588/build-hooks/
+They are executed before the common hooks for build/post-build stages
+and after for init/pre-build stages.

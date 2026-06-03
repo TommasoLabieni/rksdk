@@ -1,0 +1,17 @@
+RK_LOADER=y
+RK_UBOOT_CFG="rk3568"
+RK_UBOOT_CFG_FRAGMENTS="rk-amp"
+RK_KERNEL=y
+RK_KERNEL_ARCH="arm64"
+RK_KERNEL_CFG="rockchip_linux_defconfig"
+RK_KERNEL_DTS_NAME="rk3568-evb-amp"
+RK_AMP=y
+RK_AMP_ARCH="arm64"
+RK_AMP_HAL_TARGET="rk3568-32"
+RK_AMP_RTT_TARGET="rk3568-32"
+RK_AMP_FIT_ITS="amp_linux.its"
+RK_ROOTFS=y
+RK_YOCTO=y
+RK_YOCTO_MACHINE="rockchip-rk3568-evb"
+RK_PARAMETER="parameter-amp.txt"
+RK_USE_FIT_IMG=y
