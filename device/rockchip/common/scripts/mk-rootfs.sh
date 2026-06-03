@@ -194,6 +194,6 @@ source "${RK_BUILD_HELPER:-$(dirname "$(realpath "$0")")/build-helper}"
 
 case "${1:-rootfs}" in
 	yocto-config) build_yocto_conf ;;
-	rootfs | yocto) init_hook $@ ;& build_hook $@ ;;
+	rootfs | yocto) init_hook $@; build_hook $@ ;;
 	*) usage ;;
 esac
