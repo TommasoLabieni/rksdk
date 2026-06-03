@@ -37,7 +37,7 @@ The build system searches that directory for a GCC binary matching
 
 ```bash
 mkdir rksdk && cd rksdk
-repo init -u https://github.com/TommasoLabieni/rksdk -b master -m manifests/default.xml
+repo init -u git@github.com:TommasoLabieni/rksdk -b master -m manifests/default.xml
 repo sync -j8
 ```
 
@@ -406,6 +406,6 @@ From then on any new machine only needs:
 
 ```bash
 mkdir rksdk && cd rksdk
-repo init -u https://github.com/TommasoLabieni/rksdk -b master -m manifests/default.xml
+repo init -u git@github.com:TommasoLabieni/rksdk -b master -m manifests/default.xml
 repo sync -j8
 ```
