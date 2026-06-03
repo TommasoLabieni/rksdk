@@ -41,6 +41,7 @@ build_yocto_conf()
 	"$RK_SCRIPTS_DIR/check-yocto.sh"
 
 	cd yocto
+	mkdir -p build/conf
 
 	# Overrides for Rockchip SDK
 	{
