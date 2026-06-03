@@ -102,11 +102,6 @@ prepare_config()
 {
 	[ -e "$RK_CHIP_DIR" ] || choose_chip
 
-	cd "$RK_DEVICE_DIR"
-	rm -f $(ls "$RK_CHIPS_DIR")
-	ln -rsf "$(readlink "$RK_CHIP_DIR")" .
-	cd "$RK_SDK_DIR"
-
 	if [ ! -r "$RK_DEFCONFIG_LINK" ]; then
 		warning "WARN: $RK_DEFCONFIG_LINK not exists"
 		choose_defconfig
