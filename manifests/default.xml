@@ -28,7 +28,7 @@
        Build system (this SDK repo) — synced to workspace root
        Replace your-org/rksdk with your actual GitHub repo path.
        ============================================================ -->
-  <project name="your-org/rksdk"
+  <project name="TommasoLabieni/rksdk"
            path="."
            remote="github"
            revision="refs/heads/main"
