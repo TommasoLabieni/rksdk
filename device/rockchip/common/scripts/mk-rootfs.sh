@@ -34,6 +34,27 @@ gen_yocto_conf()
 	echo "DISPLAY_PLATFORM := \"$RK_YOCTO_DISPLAY_PLATFORM\""
 }
 
+gen_bblayers_conf()
+{
+	YOCTO_DIR="$RK_SDK_DIR/yocto"
+
+	cat <<-EOF
+	POKY_BBLAYERS_CONF_VERSION = "2"
+	BBPATH = "\${TOPDIR}"
+	BBFILES ?= ""
+	BBLAYERS ?= " \\
+	  $YOCTO_DIR/poky/meta \\
+	  $YOCTO_DIR/poky/meta-poky \\
+	  $YOCTO_DIR/poky/meta-yocto-bsp \\
+	  $YOCTO_DIR/meta-openembedded/meta-oe \\
+	  $YOCTO_DIR/meta-openembedded/meta-python \\
+	  $YOCTO_DIR/meta-openembedded/meta-networking \\
+	  $YOCTO_DIR/meta-openembedded/meta-multimedia \\
+	  $YOCTO_DIR/meta-rockchip \\
+	  "
+	EOF
+}
+
 build_yocto_conf()
 {
 	check_config RK_YOCTO || false
@@ -42,6 +63,8 @@ build_yocto_conf()
 
 	cd yocto
 	mkdir -p build/conf
+
+	gen_bblayers_conf > build/conf/bblayers.conf
 
 	# Overrides for Rockchip SDK
 	{
