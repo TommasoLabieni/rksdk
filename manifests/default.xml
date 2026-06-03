@@ -7,7 +7,7 @@
 
   Usage:
     mkdir rksdk && cd rksdk
-    repo init -u https://github.com/your-org/rksdk -b master -m manifests/default.xml
+    repo init -u git@github.com:TommasoLabieni/rksdk -b master -m manifests/default.xml
     repo sync -j8
 -->
 <manifest>
@@ -20,17 +20,24 @@
   <!-- ============================================================
        Remotes
        ============================================================ -->
+
+  <!-- Public repos via HTTPS -->
   <remote name="github"
           fetch="https://github.com"
           review="https://github.com"/>
 
+  <!-- Private repos via SSH (requires SSH key configured for GitHub) -->
+  <remote name="github-ssh"
+          fetch="git@github.com:"
+          review="https://github.com"/>
+
   <!-- ============================================================
-       Build system (this SDK repo) — synced to workspace root
-       Replace your-org/rksdk with your actual GitHub repo path.
+       Build system (this SDK repo) — synced to workspace root.
+       Uses SSH because the repo is private.
        ============================================================ -->
   <project name="TommasoLabieni/rksdk"
            path="."
-           remote="github"
+           remote="github-ssh"
            revision="refs/heads/master"
            clone-depth="1"/>
 
@@ -49,7 +56,7 @@
   <project name="rockchip-linux/u-boot"
            path="u-boot"
            remote="github"
-           revision="refs/heads/next-dev-v2017.09"
+           revision="refs/heads/next-dev"
            clone-depth="1"/>
 
   <!-- ============================================================
@@ -63,7 +70,7 @@
            clone-depth="1"/>
 
   <!-- ============================================================
-       RT-Thread RTOS (open source)
+       RT-Thread RTOS (open source) — used for AMP co-processing
        ============================================================ -->
   <project name="RT-Thread/rt-thread"
            path="rtos"
@@ -72,13 +79,11 @@
            clone-depth="1"/>
 
   <!-- ============================================================
-       HAL — Rockchip Hardware Abstraction Layer (open source)
+       HAL — Rockchip bare-metal HAL for AMP co-processing.
+       Not available on public GitHub. Obtain from the official
+       Rockchip Linux SDK release package and place in hal/.
        ============================================================ -->
-  <project name="rockchip-linux/hal"
-           path="hal"
-           remote="github"
-           revision="refs/heads/master"
-           clone-depth="1"/>
+  <!-- <project name="rockchip-linux/hal" path="hal" remote="github"/> -->
 
   <!-- ============================================================
        Yocto — meta layers
@@ -97,30 +102,30 @@
            revision="refs/heads/scarthgap"
            clone-depth="1"/>
 
-  <!-- Rockchip Yocto BSP layer (open source) -->
-  <project name="rockchip-linux/meta-rockchip"
+  <!-- Rockchip Yocto BSP layer — maintained by Rockchip engineer Jeffy Chen -->
+  <project name="JeffyCN/meta-rockchip"
            path="yocto/meta-rockchip"
            remote="github"
-           revision="refs/heads/master"
+           revision="refs/heads/scarthgap"
            clone-depth="1"/>
 
   <!-- ============================================================
-       Tools — Rockchip host tools (upgrade_tool, etc.)
+       Tools — Rockchip open-source USB flash tool
        ============================================================ -->
-  <project name="rockchip-linux/tools"
+  <project name="rockchip-linux/rkdeveloptool"
            path="tools"
            remote="github"
            revision="refs/heads/master"
            clone-depth="1"/>
 
   <!-- ============================================================
-       UEFI — Rockchip EDK2 fork (open source)
+       UEFI — No single public Rockchip EDK2 repo covers all chips.
+       Chip-specific community forks:
+         rk3588: https://github.com/edk2-porting/edk2-rk3588
+         rk3576: https://github.com/gahingwoo/edk2-rk3576
+       Obtain and place in uefi/ manually if needed.
        ============================================================ -->
-  <project name="rockchip-linux/edk2"
-           path="uefi"
-           remote="github"
-           revision="refs/heads/master"
-           clone-depth="1"/>
+  <!-- <project name="edk2-porting/edk2-rk3588" path="uefi" remote="github"/> -->
 
   <!-- ============================================================
        Prebuilt toolchains
