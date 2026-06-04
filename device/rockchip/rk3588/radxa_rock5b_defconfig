@@ -1,11 +1,5 @@
-RK_LOADER=y
 RK_UBOOT_CFG="rk3588"
-RK_KERNEL=y
-RK_KERNEL_ARCH="arm64"
-RK_KERNEL_CFG="rockchip_linux_defconfig"
-RK_KERNEL_DTS_NAME="rk3588-rock-5b"
-RK_ROOTFS=y
-RK_YOCTO=y
+RK_KERNEL_DTS_NAME="rk3588-evb1-lp4-v10-linux"
 RK_YOCTO_MACHINE="rockchip-rk3588-evb"
-RK_PARAMETER="parameter.txt"
-RK_USE_FIT_IMG=y
+RK_YOCTO_IMAGE="core-image-minimal"
+RK_UPDATE=y
