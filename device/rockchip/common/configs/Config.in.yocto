@@ -37,6 +37,15 @@ config RK_YOCTO_MACHINE
 	help
 	  Basename of machine file under yocto/meta-rockchip/conf/machine/.
 
+config RK_YOCTO_IMAGE
+	string "image recipe name"
+	default "core-image-minimal"
+	help
+	  Bitbake image recipe to build. Look for .bb files under
+	  yocto/meta-rockchip/recipes-core/images/ or
+	  yocto/poky/meta/recipes-core/images/ and write the recipe
+	  name here (e.g. core-image-minimal, core-image-base).
+
 config RK_YOCTO_CHROMIUM
 	bool "chromium browser"
 	depends on RK_CHIP_HAS_GPU

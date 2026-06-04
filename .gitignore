@@ -15,6 +15,7 @@ yocto/
 uefi/
 tools/
 prebuilts/
+common
 
 # Runtime chip-selection symlink (set by build.sh chip, not committed)
 device/rockchip/.chip

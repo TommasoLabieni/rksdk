@@ -94,6 +94,10 @@ build_yocto_conf()
 			rk3562|rk3566_rk3568|rk3576|rk3588)
 				echo "MALI_VERSION := \"g24p0\"" ;;
 		esac
+		echo
+		# Required for the SDK: generates ext4 rootfs, rootfs.img, and the
+		# 'latest' symlink that build scripts rely on.
+		echo "IMAGE_CLASSES += \"rockchip-image\""
 	} > build/conf/rksdk_override.conf
 
 	rm -f build/conf/local.conf
@@ -149,7 +153,7 @@ build_yocto()
 	source poky/oe-init-build-env build
 
 	LANG=en_US.UTF-8 LANGUAGE=en_US.en LC_ALL=en_US.UTF-8 \
-		bitbake core-image-minimal -C rootfs
+		bitbake "${RK_YOCTO_IMAGE:-core-image-minimal}" -C rootfs
 
 	ln -rsf "$PWD/latest/rootfs.img" "$IMAGE_DIR/rootfs.ext4"
 

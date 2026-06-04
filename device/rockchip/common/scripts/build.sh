@@ -643,7 +643,7 @@ main()
 					"$RK_CHIP_SCRIPTS_DIR/mk-$MODULE.sh" \
 					2>/dev/null || usage
 				;&
-			shell | buildroot-shell | bshell | cleanall)
+			shell | buildroot-shell | bshell | yocto-shell | yshell | cleanall)
 				# Check single options
 				if [ "$opt" = "$OPTIONS" ]; then
 					break

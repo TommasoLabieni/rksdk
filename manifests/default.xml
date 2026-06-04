@@ -110,10 +110,23 @@
            clone-depth="1"/>
 
   <!-- ============================================================
-       Tools — Rockchip open-source USB flash tool
+       Tools — Rockchip firmware packing and flashing utilities.
+       Contains: afptool, rkImageMaker (pack firmware), upgrade_tool
+       (Linux USB flash), RKDevTool (Windows flash), and package-file
+       templates for all supported chips.
+       ============================================================ -->
+  <project name="JeffyCN/mirrors"
+           path="tools"
+           remote="github"
+           revision="refs/heads/tools"
+           clone-depth="1"/>
+
+  <!-- ============================================================
+       rkdeveloptool — open-source alternative to RKDevTool/upgrade_tool.
+       Useful for scripted USB flashing without proprietary binaries.
        ============================================================ -->
   <project name="rockchip-linux/rkdeveloptool"
-           path="tools"
+           path="tools/rkdeveloptool"
            remote="github"
            revision="refs/heads/master"
            clone-depth="1"/>
