@@ -122,7 +122,7 @@ DEFCONFIG := $(realpath $(CHIP_DIR)/$(call qstrip,$(TARGET_DEFCONFIG)))
 DEFCONFIG_NAME := $(notdir $(DEFCONFIG))
 
 # Setup some default values
-RK_CHIP_FAMILY := $(notdir $(realpath $(CHIP_DIR)))
+RK_CHIP_FAMILY := $(notdir $(realpath $(CHIP_DIR)/..))
 RK_CHIP := $(shell echo ${DEFCONFIG_NAME} | \
 	cut -d'_' -f2 | grep -E "^(px|rk|rv)")
 

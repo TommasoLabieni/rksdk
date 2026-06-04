@@ -1,0 +1,8 @@
+RK_LOADER=y
+RK_UBOOT_CFG="rk3588-rock5b"
+RK_KERNEL=y
+RK_KERNEL_DTS_NAME="rk3588-rock-5b"
+RK_ROOTFS=y
+RK_YOCTO_MACHINE="rockchip-rk3588-rock5b"
+RK_YOCTO_IMAGE="core-image-minimal"
+RK_UPDATE=y

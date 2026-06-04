@@ -423,6 +423,29 @@ build_hook()
 
 	KERNEL_DTS="$(find "kernel/arch/$RK_KERNEL_ARCH/boot/dts" \
 		-name "$RK_KERNEL_DTS_NAME.dts")"
+
+	# If DTS not in the kernel tree, look in the chip's dts/ directory.
+	# RK_CHIP_DIR points to the configs/ subdir; go up one level to reach
+	# the actual chip directory that may contain a dts/ folder.
+	RK_BOARD_DIR="$(dirname "$(realpath "$RK_CHIP_DIR")")"
+	if [ -d "$RK_BOARD_DIR/dts" ]; then
+		BOARD_DTS="$RK_BOARD_DIR/dts/$RK_KERNEL_DTS_NAME.dts"
+		if [ -r "$BOARD_DTS" ]; then
+			ROCKCHIP_DTS_DIR="kernel/arch/$RK_KERNEL_ARCH/boot/dts/rockchip"
+			notice "Copying board DTS from $RK_BOARD_DIR/dts/ into kernel tree"
+			cp "$RK_BOARD_DIR/dts/"*.dts "$RK_BOARD_DIR/dts/"*.dtsi \
+				"$ROCKCHIP_DTS_DIR/" 2>/dev/null || true
+			DTS_MK="$ROCKCHIP_DTS_DIR/Makefile"
+			DTB_ENTRY="dtb-\$(CONFIG_ARCH_ROCKCHIP) += $RK_KERNEL_DTS_NAME.dtb"
+			grep -qF "$RK_KERNEL_DTS_NAME.dtb" "$DTS_MK" || \
+				echo "$DTB_ENTRY" >> "$DTS_MK"
+			KERNEL_DTS="$ROCKCHIP_DTS_DIR/$RK_KERNEL_DTS_NAME.dts"
+		elif [ -z "$KERNEL_DTS" ]; then
+			error "DTS $RK_KERNEL_DTS_NAME.dts not found in kernel tree or $RK_BOARD_DIR/dts/"
+			exit 1
+		fi
+	fi
+
 	KERNEL_DTS_DIR="$(dirname "$KERNEL_DTS")"
 
 	case "$1" in
