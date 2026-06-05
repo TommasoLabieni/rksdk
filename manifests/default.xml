@@ -42,20 +42,22 @@
            clone-depth="1"/>
 
   <!-- ============================================================
-       Kernel — Rockchip downstream 6.1 (open source, GitHub mirror)
+       Kernel — fork of rockchip-linux/kernel (develop-6.1).
+       Board-specific DTS and defconfigs are added here.
        ============================================================ -->
-  <project name="rockchip-linux/kernel"
+  <project name="TommasoLabieni/kernel"
            path="kernel-6.1"
-           remote="github"
+           remote="github-ssh"
            revision="refs/heads/develop-6.1"
            clone-depth="1"/>
 
   <!-- ============================================================
-       U-Boot — Rockchip downstream (open source, GitHub mirror)
+       U-Boot — fork of rockchip-linux/u-boot (next-dev).
+       Board-specific defconfigs and DTS are added here.
        ============================================================ -->
-  <project name="rockchip-linux/u-boot"
+  <project name="TommasoLabieni/u-boot"
            path="u-boot"
-           remote="github"
+           remote="github-ssh"
            revision="refs/heads/next-dev"
            clone-depth="1"/>
 
