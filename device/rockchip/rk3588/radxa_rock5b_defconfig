@@ -11,4 +11,5 @@ RK_ROOTFS=y
 RK_YOCTO_MACHINE="rockchip-rk3588-rock5b"
 >>>>>>> 52539f3 (Add features):device/rockchip/rk3588/configs/radxa_rock5b_defconfig
 RK_YOCTO_IMAGE="core-image-minimal"
+RK_YOCTO_EXTRA_CFG="rock5b-extra.conf"
 RK_UPDATE=y
