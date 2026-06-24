@@ -67,6 +67,14 @@ build_yocto_conf()
 	cd yocto
 	mkdir -p build/conf
 
+	# Inject custom machine confs from device/rockchip/<chip>/ into meta-rockchip.
+	# This avoids forking meta-rockchip while keeping machine files in the SDK repo.
+	for _conf in "$RK_CHIP_DIR"/rockchip-*.conf; do
+		[ -f "$_conf" ] || continue
+		ln -rsf "$_conf" meta-rockchip/conf/machine/
+	done
+	unset _conf
+
 	gen_bblayers_conf > build/conf/bblayers.conf
 
 	# Overrides for Rockchip SDK

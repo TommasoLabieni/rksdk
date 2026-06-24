@@ -139,10 +139,10 @@
            revision="refs/heads/scarthgap"
            clone-depth="1"/>
 
-  <!-- Rockchip Yocto BSP layer — fork of JeffyCN/meta-rockchip with Rock 5B machine added -->
-  <project name="TommasoLabieni/meta-rockchip"
+  <!-- Rockchip Yocto BSP layer — maintained by Rockchip engineer Jeffy Chen -->
+  <project name="JeffyCN/meta-rockchip"
            path="yocto/meta-rockchip"
-           remote="github-ssh"
+           remote="github"
            revision="refs/heads/scarthgap"
            clone-depth="1"/>
 
