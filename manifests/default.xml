@@ -72,20 +72,55 @@
            clone-depth="1"/>
 
   <!-- ============================================================
-       RT-Thread RTOS (open source) — used for AMP co-processing
+       AMP (Asymmetric Multi-Processing) — RT-Thread + Rockchip HAL
+
+       WARNING: The upstream RT-Thread/rt-thread on GitHub does NOT
+       contain Rockchip BSPs (bsp/rockchip/rk3588-64 etc.). These
+       repos are Rockchip-internal forks distributed with the SDK.
+
+       To enable repo sync for AMP:
+         1. Fork rtos/rt-thread/rt-thread from the Rockchip SDK into
+            TommasoLabieni/rt-thread on GitHub
+         2. Fork rk/mcu/hal and sub-projects similarly
+         3. Uncomment the entries below and update the project names
+
+       Until then, populate rtos/ and hal/ manually from the official
+       Rockchip Linux SDK release package.
+
+       Source paths in the official Rockchip SDK manifest:
+         rtos/rt-thread/rt-thread        → rtos/
+         rtos/rt-thread/rtthread-apps    → rtos/applications/rtthread-apps
+         rk/mcu/hal                      → hal/  (+ symlink to rtos/bsp/rockchip/common/hal)
+         rk/mcu/hal/test                 → hal/test
+         rk/mcu/hal/middleware           → hal/middleware
+         rk/mcu/hal/applications         → hal/applications
+         rk/mcu/hal/board                → hal/board
+
+       Required prebuilt toolchain (already in prebuilts/ if copied from SDK):
+         gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux
+         → prebuilts/gcc/linux-x86/arm/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux
        ============================================================ -->
-  <project name="RT-Thread/rt-thread"
+  <!--
+  <project name="TommasoLabieni/rt-thread"
            path="rtos"
-           remote="github"
-           revision="refs/heads/master"
+           remote="github-ssh"
+           revision="refs/heads/rockchip-6.1"
            clone-depth="1"/>
 
-  <!-- ============================================================
-       HAL — Rockchip bare-metal HAL for AMP co-processing.
-       Not available on public GitHub. Obtain from the official
-       Rockchip Linux SDK release package and place in hal/.
-       ============================================================ -->
-  <!-- <project name="rockchip-linux/hal" path="hal" remote="github"/> -->
+  <project name="TommasoLabieni/rtthread-apps"
+           path="rtos/applications/rtthread-apps"
+           remote="github-ssh"
+           revision="refs/heads/rockchip-6.1"
+           clone-depth="1"/>
+
+  <project name="TommasoLabieni/hal"
+           path="hal"
+           remote="github-ssh"
+           revision="refs/heads/rockchip-6.1"
+           clone-depth="1">
+    <linkfile src="." dest="rtos/bsp/rockchip/common/hal"/>
+  </project>
+  -->
 
   <!-- ============================================================
        Yocto — meta layers
@@ -104,10 +139,10 @@
            revision="refs/heads/scarthgap"
            clone-depth="1"/>
 
-  <!-- Rockchip Yocto BSP layer — maintained by Rockchip engineer Jeffy Chen -->
-  <project name="JeffyCN/meta-rockchip"
+  <!-- Rockchip Yocto BSP layer — fork of JeffyCN/meta-rockchip with Rock 5B machine added -->
+  <project name="TommasoLabieni/meta-rockchip"
            path="yocto/meta-rockchip"
-           remote="github"
+           remote="github-ssh"
            revision="refs/heads/scarthgap"
            clone-depth="1"/>
 

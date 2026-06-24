@@ -5,6 +5,9 @@ gen_yocto_conf()
 	echo "include include/common.conf"
 	echo "include include/debug.conf"
 	echo "include include/audio.conf"
+	echo
+	echo "# Allow root login with empty password for development"
+	echo "EXTRA_IMAGE_FEATURES += \"debug-tweaks\""
 
 	if [ "$RK_YOCTO_MULTIMEDIA" ]; then
 		echo "include include/multimedia.conf"

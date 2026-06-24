@@ -6,16 +6,20 @@ output/
 .repo/
 
 # Directories populated by repo sync — not SDK content
-kernel-6.1/
-u-boot/
-rkbin/
-rtos/
-hal/
-yocto/
-uefi/
-tools/
-prebuilts/
-common
+# Leading slash = root-level only, so device/rockchip/common/ etc. are unaffected
+/kernel-6.1/
+/u-boot/
+/rkbin/
+/rtos/
+/hal/
+/yocto/
+/uefi/
+/tools/
+/prebuilts/
+/common
+
+# Host build tools — large binaries, not committed
+device/rockchip/common/tools/
 
 # Runtime chip-selection symlink (set by build.sh chip, not committed)
 device/rockchip/.chip
