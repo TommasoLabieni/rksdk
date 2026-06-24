@@ -42,22 +42,23 @@
            clone-depth="1"/>
 
   <!-- ============================================================
-       Kernel — fork of rockchip-linux/kernel (develop-6.1).
-       Board-specific DTS and defconfigs are added here.
+       Kernel — Rockchip upstream (develop-6.1).
+       Rock 5B DTS already present; board-specific overlays in
+       device/rockchip/rk3588/dts/ are copied in at build time if needed.
        ============================================================ -->
-  <project name="TommasoLabieni/kernel"
+  <project name="rockchip-linux/kernel"
            path="kernel-6.1"
-           remote="github-ssh"
+           remote="github"
            revision="refs/heads/develop-6.1"
            clone-depth="1"/>
 
   <!-- ============================================================
-       U-Boot — fork of rockchip-linux/u-boot (next-dev).
-       Board-specific defconfigs and DTS are added here.
+       U-Boot — Rockchip upstream (next-dev).
+       rk3588-rock5b_defconfig already present upstream.
        ============================================================ -->
-  <project name="TommasoLabieni/u-boot"
+  <project name="rockchip-linux/u-boot"
            path="u-boot"
-           remote="github-ssh"
+           remote="github"
            revision="refs/heads/next-dev"
            clone-depth="1"/>
 
