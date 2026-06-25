@@ -4,6 +4,7 @@ usage_hook()
 {
 	usage_oneline "rootfs" "build Yocto rootfs"
 	usage_oneline "yocto" "build Yocto rootfs"
+	usage_oneline "sdk" "build Yocto SDK (populate_sdk) for the active board"
 }
 
 clean_hook()
@@ -17,7 +18,7 @@ init_hook()
 	"$RK_SCRIPTS_DIR/mk-rootfs.sh" init $@
 }
 
-BUILD_CMDS="rootfs yocto"
+BUILD_CMDS="rootfs yocto sdk"
 build_hook()
 {
 	"$RK_SCRIPTS_DIR/mk-rootfs.sh" $@

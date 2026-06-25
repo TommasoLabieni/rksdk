@@ -177,12 +177,37 @@ build_yocto()
 	finish_build build_yocto $@
 }
 
+build_sdk()
+{
+	check_config RK_YOCTO || false
+
+	SDK_DIR="${1:-$RK_OUTDIR/sdk/$RK_YOCTO_MACHINE}"
+
+	build_yocto_conf
+
+	source poky/oe-init-build-env build
+
+	LANG=en_US.UTF-8 LANGUAGE=en_US.en LC_ALL=en_US.UTF-8 \
+		bitbake "${RK_YOCTO_IMAGE:-core-image-minimal}" -c populate_sdk
+
+	mkdir -p "$SDK_DIR"
+	for _f in tmp/deploy/sdk/*.sh tmp/deploy/sdk/*.manifest tmp/deploy/sdk/*.env.in; do
+		[ -f "$_f" ] || continue
+		ln -rsf "$PWD/$_f" "$SDK_DIR/"
+	done
+	unset _f
+
+	notice "SDK installer saved to: $SDK_DIR"
+	finish_build build_sdk $@
+}
+
 # Hooks
 
 usage_hook()
 {
 	usage_oneline "rootfs" "build Yocto rootfs"
 	usage_oneline "yocto" "build Yocto rootfs"
+	usage_oneline "sdk" "build Yocto SDK (populate_sdk) for the active board"
 }
 
 clean_hook()
@@ -200,7 +225,7 @@ init_hook()
 	check_config RK_ROOTFS &>/dev/null || return 0
 }
 
-BUILD_CMDS="rootfs yocto"
+BUILD_CMDS="rootfs yocto sdk"
 build_hook()
 {
 	check_config RK_ROOTFS || false
@@ -234,5 +259,6 @@ source "${RK_BUILD_HELPER:-$(dirname "$(realpath "$0")")/build-helper}"
 case "${1:-rootfs}" in
 	yocto-config) build_yocto_conf ;;
 	rootfs | yocto) init_hook $@; build_hook $@ ;;
+	sdk) build_sdk ;;
 	*) usage ;;
 esac

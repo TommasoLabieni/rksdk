@@ -14,7 +14,7 @@ HAL + RT-Thread.
 **Host packages** (Ubuntu/Debian):
 
 ```bash
-sudo apt install repo git make gcc g++ bison flex libncurses-dev \
+sudo apt install git make gcc g++ bison flex libncurses-dev \
     python3 python3-pip scons libssl-dev bc lz4 cpio rsync \
     device-tree-compiler u-boot-tools
 ```
@@ -36,14 +36,13 @@ The build system searches that directory for a GCC binary matching
 ## Getting started
 
 ```bash
-mkdir rksdk && cd rksdk
-repo init -u git@github.com:TommasoLabieni/rksdk -b master -m manifests/default.xml
-repo sync -j8
+git clone --recurse-submodules https://github.com/TommasoLabieni/rksdk.git
+cd rksdk
 ```
 
-`repo sync` fetches the kernel, U-Boot, rkbin blobs, Yocto layers, RT-Thread,
-HAL, and tools into their respective subdirectories. The SDK build system
-itself (this repo) is checked out to the workspace root at `path="."`.
+`--recurse-submodules` fetches the kernel, U-Boot, rkbin blobs, Yocto layers,
+and tools into their respective subdirectories in one shot. Each submodule is
+cloned as a shallow clone (depth 1) to keep the initial download fast.
 
 ---
 
@@ -67,17 +66,20 @@ Each step is described in detail below.
 rksdk/
 ├── build.sh                → device/rockchip/common/scripts/build.sh
 ├── Makefile                → device/rockchip/common/Makefile
-├── manifests/default.xml   # repo manifest
-├── kernel  → kernel-6.1/  # populated by repo sync
-├── kernel-6.1/             # Rockchip Linux 6.1
-├── u-boot/                 # Rockchip U-Boot v2017.09
-├── rkbin/                  # Proprietary blobs: BL31 ATF, DDR init, miniloader
+├── .gitmodules             # submodule declarations
+├── kernel  → kernel-6.1/  # symlink created by build.sh at first run
+├── kernel-6.1/             # Rockchip Linux 6.1  [submodule]
+├── u-boot/                 # Rockchip U-Boot v2017.09          [submodule]
+├── rkbin/                  # Proprietary blobs: BL31 ATF, DDR init, miniloader  [submodule]
 ├── prebuilts/              # Cross-compilation toolchains (manual download)
-├── yocto/                  # poky + meta-openembedded + meta-rockchip
-├── rtos/                   # RT-Thread (for AMP)
-├── hal/                    # Rockchip HAL bare-metal library (for AMP)
-├── uefi/                   # Rockchip EDK2 UEFI
-├── tools/                  # Host tools: upgrade_tool, etc.
+├── yocto/                  # Yocto build root
+│   ├── poky/               # Yocto 5.0 Scarthgap               [submodule]
+│   ├── meta-openembedded/  #                                   [submodule]
+│   └── meta-rockchip/      #                                   [submodule]
+├── rtos/                   # RT-Thread (for AMP) — manual clone, not a submodule
+├── hal/                    # Rockchip HAL (for AMP)            — manual clone
+├── uefi/                   # Rockchip EDK2 UEFI                — manual clone
+├── tools/                  # Host tools: upgrade_tool, etc.    [submodule]
 ├── device/rockchip/
 │   ├── common/
 │   │   ├── build-hooks/    # Ordered hook scripts (00-config … 99-all)
@@ -179,12 +181,30 @@ firmware. Final images land in `output/firmware/` (also `rockdev/`).
 ./build.sh loader     # U-Boot + trust image only
 ./build.sh kernel     # kernel + DTB only
 ./build.sh rootfs     # Yocto rootfs only
+./build.sh sdk        # Yocto cross-compilation SDK (populate_sdk)
 ./build.sh amp        # AMP images only (requires RK_AMP=y)
 ./build.sh firmware   # re-pack firmware from existing build artifacts
 ```
 
 These can be combined: `./build.sh kernel firmware` rebuilds the kernel then
 re-packs without rebuilding the rootfs.
+
+### SDK
+
+```bash
+./build.sh sdk
+```
+
+Runs `bitbake <image> -c populate_sdk` and saves the resulting installer to
+`output/sdk/<machine>/`. For example, a Rock5B build produces:
+
+```
+output/sdk/rockchip-rk3588-rock5b/
+└── poky-glibc-x86_64-<image>-cortexa55-rockchip-rk3588-rock5b-toolchain-*.sh
+```
+
+Run the `.sh` installer on any x86-64 host to get a sysroot + cross-toolchain
+for developing applications that target the board.
 
 ### Cleaning
 
@@ -357,55 +377,40 @@ output/sessions/2024-01-15_10-30-00/
 ## Updating sources
 
 ```bash
-repo sync -j8                              # pull latest on all branches
-repo forall -c git log --oneline -5        # recent commits per repo
-repo forall -c git status                  # working-tree status per repo
+git submodule update --remote --merge      # pull latest on all tracked branches
+git submodule foreach git log --oneline -5 # recent commits per submodule
+git submodule foreach git status           # working-tree status per submodule
 ```
 
-To pin a component to a specific commit, edit `manifests/default.xml` and
-change the `revision` attribute for that project from a branch name to a
-full commit SHA, then commit and push the manifest update.
+To pin a submodule to a specific commit, check it out at the desired SHA and
+commit the updated submodule pointer from the SDK root:
+
+```bash
+cd kernel-6.1
+git checkout <sha>
+cd ..
+git add kernel-6.1
+git commit -m "chore: pin kernel-6.1 to <sha>"
+```
 
 ---
 
-## Source repositories
+## Source repositories (submodules)
 
-| Component | GitHub | Branch |
+| Path | GitHub | Branch |
 |---|---|---|
-| Kernel 6.1 | `rockchip-linux/kernel` | `develop-6.1` |
-| U-Boot | `rockchip-linux/u-boot` | `next-dev-v2017.09` |
-| rkbin (blobs) | `rockchip-linux/rkbin` | `master` |
-| RT-Thread | `RT-Thread/rt-thread` | `master` |
-| HAL | `rockchip-linux/hal` | `master` |
-| Yocto poky | `yoctoproject/poky` | `scarthgap` |
-| meta-openembedded | `openembedded/meta-openembedded` | `scarthgap` |
-| meta-rockchip | `rockchip-linux/meta-rockchip` | `master` |
-| UEFI | `rockchip-linux/edk2` | `master` |
-| tools | `rockchip-linux/tools` | `master` |
+| `kernel-6.1/` | `rockchip-linux/kernel` | `develop-6.1` |
+| `u-boot/` | `rockchip-linux/u-boot` | `next-dev` |
+| `rkbin/` | `rockchip-linux/rkbin` | `master` |
+| `yocto/poky/` | `yoctoproject/poky` | `scarthgap` |
+| `yocto/meta-openembedded/` | `openembedded/meta-openembedded` | `scarthgap` |
+| `yocto/meta-rockchip/` | `JeffyCN/meta-rockchip` | `scarthgap` |
+| `tools/` | `JeffyCN/mirrors` | `tools` |
 
 `rkbin` contains proprietary Rockchip binaries (BL31 ATF, DDR initialisation,
 miniloader). There is no open-source replacement for these blobs; they are
 fetched from Rockchip's own public GitHub repository.
 
----
-
-## Initial GitHub setup
-
-```bash
-# From the workspace root — do this once after creating the private repo:
-git init .
-git remote add origin https://github.com/TommasoLabieni/rksdk.git
-git add .
-git commit -m "Initial SDK"
-git push -u origin master
-```
-
-After pushing, replace `TommasoLabieni/rksdk` on line 26 of
-`manifests/default.xml` with your actual `<org>/<repo>`, commit and push.
-From then on any new machine only needs:
-
-```bash
-mkdir rksdk && cd rksdk
-repo init -u git@github.com:TommasoLabieni/rksdk -b master -m manifests/default.xml
-repo sync -j8
-```
+`rtos/`, `hal/`, and `uefi/` are **not** submodules — clone them manually if
+you need AMP or UEFI support (they are optional and too large to include by
+default).
