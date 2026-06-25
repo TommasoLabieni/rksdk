@@ -561,23 +561,10 @@ main()
 	setup_environments
 
 	# Log SDK information
-	MANIFEST="$RK_SDK_DIR/.repo/manifest.xml"
-	if [ -e "$MANIFEST" ]; then
-		if [ ! -L "$MANIFEST" ]; then
-			MANIFEST="$RK_SDK_DIR/.repo/manifests/$(grep -o "[^\"]*\.xml" "$MANIFEST")"
-		fi
-		TAG="$(grep -o "linux-.*-gen-rkr[^.\"]*" "$MANIFEST" | \
-			head -n 1 || true)"
-		MANIFEST="$(basename "$(realpath "$MANIFEST")")"
-		notice "\n############### Rockchip Linux SDK ###############\n"
-		notice "Manifest: $MANIFEST"
-		if [ "$TAG" ]; then
-			notice "Version: $TAG"
-		fi
-		notice "GIT commit: \"$(cd "$RK_COMMON_DIR"; \
-			git log --oneline 2>/dev/null | head -n 1)\""
-		echo
-	fi
+	notice "\n############### Rockchip Linux SDK ###############\n"
+	notice "GIT commit: \"$(cd "$RK_SDK_DIR"; \
+		git log --oneline 2>/dev/null | head -n 1)\""
+	echo
 
 	notice -n "Log colors: "
 	message -n "message "

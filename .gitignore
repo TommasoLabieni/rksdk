@@ -2,21 +2,17 @@
 output/
 *.log
 
-# repo tool internal state
+# repo tool internal state (kept for backwards compatibility if someone uses repo)
 .repo/
 
-# Directories populated by repo sync — not SDK content
-# Leading slash = root-level only, so device/rockchip/common/ etc. are unaffected
-/kernel-6.1/
-/u-boot/
-/rkbin/
+# Managed manually — too large or private to be submodules
 /rtos/
 /hal/
-/yocto/
-/uefi/
-/tools/
 /prebuilts/
-/common
+/uefi/
+
+# Yocto build output (submodule source trees are tracked, build dir is not)
+/yocto/build/
 
 # Host build tools — large binaries, not committed
 device/rockchip/common/tools/
