@@ -28,6 +28,19 @@ build_uboot()
 	fi
 	unset _uboot_defconfig
 
+	# Inject board DTS/DTSI files from device/rockchip/<chip>/dts/ if not upstream.
+	if [ -d "$RK_CHIP_DIR/dts" ]; then
+		for _dts in "$RK_CHIP_DIR/dts/"*.dts "$RK_CHIP_DIR/dts/"*.dtsi; do
+			[ -f "$_dts" ] || continue
+			_dst="u-boot/arch/arm/dts/$(basename "$_dts")"
+			if [ ! -f "$_dst" ]; then
+				notice "Injecting $(basename "$_dts") into u-boot/arch/arm/dts/"
+				cp "$_dts" "$_dst"
+			fi
+		done
+		unset _dts _dst
+	fi
+
 	run_command cd u-boot
 
 	run_command $UMAKE $RK_UBOOT_CFG $RK_UBOOT_CFG_FRAGMENTS $UARGS
