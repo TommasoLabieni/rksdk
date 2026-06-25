@@ -41,6 +41,20 @@ build_uboot()
 		unset _dts _dst
 	fi
 
+	# Inject board-specific headers from device/rockchip/<chip>/uboot-headers/ if missing.
+	if [ -d "$RK_CHIP_DIR/uboot-headers" ]; then
+		while IFS= read -r -d '' _hdr; do
+			_rel="${_hdr#$RK_CHIP_DIR/uboot-headers/}"
+			_dst="u-boot/include/$_rel"
+			if [ ! -f "$_dst" ]; then
+				mkdir -p "$(dirname "$_dst")"
+				notice "Injecting $_rel into u-boot/include/"
+				cp "$_hdr" "$_dst"
+			fi
+		done < <(find "$RK_CHIP_DIR/uboot-headers" -type f -print0)
+		unset _hdr _rel _dst
+	fi
+
 	run_command cd u-boot
 
 	run_command $UMAKE $RK_UBOOT_CFG $RK_UBOOT_CFG_FRAGMENTS $UARGS
