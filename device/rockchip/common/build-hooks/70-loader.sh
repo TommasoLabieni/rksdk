@@ -23,7 +23,7 @@ build_uboot()
 	_uboot_defconfig="${RK_UBOOT_CFG}_defconfig"
 	if [ ! -f "u-boot/configs/$_uboot_defconfig" ] && \
 	   [ -f "$RK_CHIP_DIR/$_uboot_defconfig" ]; then
-		notice "Injecting $\_uboot_defconfig into u-boot/configs/"
+		notice "Injecting $_uboot_defconfig into u-boot/configs/"
 		cp "$RK_CHIP_DIR/$_uboot_defconfig" "u-boot/configs/$_uboot_defconfig"
 	fi
 	unset _uboot_defconfig
