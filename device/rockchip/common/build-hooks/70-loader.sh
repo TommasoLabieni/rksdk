@@ -19,24 +19,22 @@ build_uboot()
 	[ ! "$RK_SECURITY_REMOTE_SIGN" ] || \
 		UARGS="$UARGS ${RK_SECUREBOOT_FIT:+--no-sign}"
 
-	# Inject board u-boot defconfig from device/rockchip/<chip>/ if not upstream.
+	# Inject board u-boot defconfig from uboot-configs/ if not upstream.
 	_uboot_defconfig="${RK_UBOOT_CFG}_defconfig"
 	if [ ! -f "u-boot/configs/$_uboot_defconfig" ] && \
-	   [ -f "$RK_CHIP_DIR/$_uboot_defconfig" ]; then
+	   [ -f "$RK_CHIP_DIR/uboot-configs/$_uboot_defconfig" ]; then
 		notice "Injecting $_uboot_defconfig into u-boot/configs/"
-		cp "$RK_CHIP_DIR/$_uboot_defconfig" "u-boot/configs/$_uboot_defconfig"
+		cp "$RK_CHIP_DIR/uboot-configs/$_uboot_defconfig" "u-boot/configs/$_uboot_defconfig"
 	fi
 	unset _uboot_defconfig
 
-	# Inject u-boot DTS/DTSI files from device/rockchip/<chip>/uboot-dts/ if not upstream.
+	# Inject u-boot DTS/DTSI files from uboot-dts/. Always overwrite — board owns these.
 	if [ -d "$RK_CHIP_DIR/uboot-dts" ]; then
 		for _dts in "$RK_CHIP_DIR/uboot-dts/"*.dts "$RK_CHIP_DIR/uboot-dts/"*.dtsi; do
 			[ -f "$_dts" ] || continue
 			_dst="u-boot/arch/arm/dts/$(basename "$_dts")"
-			if [ ! -f "$_dst" ]; then
-				notice "Injecting $(basename "$_dts") into u-boot/arch/arm/dts/"
-				cp "$_dts" "$_dst"
-			fi
+			notice "Injecting $(basename "$_dts") into u-boot/arch/arm/dts/"
+			cp "$_dts" "$_dst"
 		done
 		unset _dts _dst
 	fi
