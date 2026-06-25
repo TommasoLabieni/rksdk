@@ -432,9 +432,8 @@ build_hook()
 		BOARD_DTS="$RK_BOARD_DIR/dts/$RK_KERNEL_DTS_NAME.dts"
 		if [ -r "$BOARD_DTS" ]; then
 			ROCKCHIP_DTS_DIR="kernel/arch/$RK_KERNEL_ARCH/boot/dts/rockchip"
-			notice "Copying board DTS from $RK_BOARD_DIR/dts/ into kernel tree"
-			cp "$RK_BOARD_DIR/dts/"*.dts "$RK_BOARD_DIR/dts/"*.dtsi \
-				"$ROCKCHIP_DTS_DIR/" 2>/dev/null || true
+			notice "Injecting $RK_KERNEL_DTS_NAME.dts into kernel tree"
+			cp "$BOARD_DTS" "$ROCKCHIP_DTS_DIR/"
 
 			# Register the DTB in the kernel Makefile if not already listed
 			DTS_MK="$ROCKCHIP_DTS_DIR/Makefile"
