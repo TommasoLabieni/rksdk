@@ -17,8 +17,9 @@ output/
 # Host build tools — large binaries, not committed
 device/rockchip/common/tools/
 
-# Runtime chip-selection symlink (set by build.sh chip, not committed)
+# Runtime chip-selection symlinks created by build.sh, not committed
 device/rockchip/.chip
+/common
 
 # Editor / tooling
 .claude/
