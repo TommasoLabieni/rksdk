@@ -19,6 +19,15 @@ build_uboot()
 	[ ! "$RK_SECURITY_REMOTE_SIGN" ] || \
 		UARGS="$UARGS ${RK_SECUREBOOT_FIT:+--no-sign}"
 
+	# Inject board defconfigs from device/rockchip/<chip>/ if not in u-boot tree.
+	for _defconfig in "$RK_CHIP_DIR"/*_defconfig; do
+		[ -f "$_defconfig" ] || continue
+		_name="$(basename "$_defconfig")"
+		[ ! -f "u-boot/configs/$_name" ] && \
+			cp "$_defconfig" "u-boot/configs/$_name"
+	done
+	unset _defconfig _name
+
 	run_command cd u-boot
 
 	run_command $UMAKE $RK_UBOOT_CFG $RK_UBOOT_CFG_FRAGMENTS $UARGS
