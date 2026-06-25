@@ -425,9 +425,8 @@ build_hook()
 		-name "$RK_KERNEL_DTS_NAME.dts")"
 
 	# If DTS not in the kernel tree, look in the chip's dts/ directory.
-	# RK_CHIP_DIR points to the configs/ subdir; go up one level to reach
-	# the actual chip directory that may contain a dts/ folder.
-	RK_BOARD_DIR="$(dirname "$(realpath "$RK_CHIP_DIR")")"
+	# RK_CHIP_DIR is device/rockchip/.chip -> device/rockchip/rk3588.
+	RK_BOARD_DIR="$(realpath "$RK_CHIP_DIR")"
 	if [ -d "$RK_BOARD_DIR/dts" ]; then
 		BOARD_DTS="$RK_BOARD_DIR/dts/$RK_KERNEL_DTS_NAME.dts"
 		if [ -r "$BOARD_DTS" ]; then
