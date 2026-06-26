@@ -1,0 +1,28 @@
+From 6956648f4085d2fe2487335ea01684a0d58b1517 Mon Sep 17 00:00:00 2001
+From: Tommaso Labieni <tommaso.labieni@entner-electronics.com>
+Date: Fri, 26 Jun 2026 17:38:38 +0200
+Subject: [PATCH 09/11] config: disable signed regulatory.db requirement
+
+Kernel embedded keys don't match Yocto wireless-regdb signature.
+Without this, iw reg set is silently ignored and scans fail.
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+---
+ arch/arm64/configs/rockchip_linux_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/configs/rockchip_linux_defconfig b/arch/arm64/configs/rockchip_linux_defconfig
+index b97b27527ad6..2faeff7e7e87 100644
+--- a/arch/arm64/configs/rockchip_linux_defconfig
++++ b/arch/arm64/configs/rockchip_linux_defconfig
+@@ -225,6 +225,7 @@ CONFIG_CAN_RK3576=y
+ CONFIG_USB_RTL8150=y
+ CONFIG_USB_RTL8152=y
+ CONFIG_CFG80211=y
++CONFIG_CFG80211_REQUIRE_SIGNED_REGDB=n
+ CONFIG_MAC80211=y
+ # CONFIG_WL_ROCKCHIP is not set
+ CONFIG_INPUT_FF_MEMLESS=y
+-- 
+2.34.1
+
