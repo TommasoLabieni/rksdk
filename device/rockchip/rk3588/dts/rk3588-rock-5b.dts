@@ -24,7 +24,9 @@
 	model = "Radxa ROCK 5B";
 	compatible = "radxa,rock-5b", "rockchip,rk3588";
 
-	/delete-node/ chosen;
+	chosen: chosen {
+		bootargs = "earlycon=uart8250,mmio32,0xfeb50000,1500000n8 console=ttyFIQ0,1500000n8 root=/dev/mmcblk0p6 rw rootwait";
+	};
 
 	fan0: pwm-fan {
 		compatible = "pwm-fan";
