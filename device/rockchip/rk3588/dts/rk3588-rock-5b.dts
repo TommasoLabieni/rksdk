@@ -24,9 +24,7 @@
 	model = "Radxa ROCK 5B";
 	compatible = "radxa,rock-5b", "rockchip,rk3588";
 
-	chosen: chosen {
-		bootargs = "earlycon=uart8250,mmio32,0xfeb50000,1500000n8 console=ttyFIQ0,1500000n8 irqchip.gicv3_pseudo_nmi=0 root=PARTUUID=614e0000-0000 rw rootwait rcupdate.rcu_expedited=1 rcu_nocbs=all";
-	};
+	/delete-node/ chosen;
 
 	fan0: pwm-fan {
 		compatible = "pwm-fan";
@@ -489,8 +487,6 @@
 	mmc-hs400-1_8v;
 	mmc-hs400-enhanced-strobe;
 	mmc-hs200-1_8v;
-	vmmc-supply = <&vcc_3v3_s3>;
-	vqmmc-supply = <&vccio_sd_s0>;
 	status = "okay";
 };
 
@@ -1253,13 +1249,22 @@
 };
 
 /*
- * The upstream rk3588-rk806-single.dtsi only activates pmic_pins.
- * Rock5B has DVS pins wired and requires them for correct PMIC
- * power-state transitions; without this the kernel hangs at boot.
+ * Upstream rk3588-rk806-single.dtsi diverges from Radxa's kernel in two
+ * ways that break Rock5B boot:
+ *
+ *  1. DVS pins are wired on Rock5B and must be activated for correct PMIC
+ *     power-state transitions.
+ *  2. Upstream adds regulator-init-microvolt = <800000> on vdd_cpu_lit_s0
+ *     which is absent in Radxa's kernel and causes instability during
+ *     regulator probe on this board.
  */
 &rk806single {
 	pinctrl-names = "default", "pmic-power-off";
 	pinctrl-0 = <&pmic_pins>, <&rk806_dvs1_null>,
 		    <&rk806_dvs2_null>, <&rk806_dvs3_null>;
 	pinctrl-1 = <&rk806_dvs1_pwrdn>;
+};
+
+&vdd_cpu_lit_s0 {
+	/delete-property/ regulator-init-microvolt;
 };
