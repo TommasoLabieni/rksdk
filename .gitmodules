@@ -1,8 +1,8 @@
 [submodule "kernel-6.1"]
 	path = kernel-6.1
-	url = https://github.com/rockchip-linux/kernel
-	branch = develop-6.1
-	shallow = true
+	url = https://github.com/Augmented-Racing/kernel.git
+	branch = rock5b
+	shallow = false
 
 [submodule "u-boot"]
 	path = u-boot
@@ -30,9 +30,9 @@
 
 [submodule "yocto/meta-rockchip"]
 	path = yocto/meta-rockchip
-	url = https://github.com/JeffyCN/meta-rockchip
-	branch = scarthgap
-	shallow = true
+	url = https://github.com/Augmented-Racing/meta-rockchip.git
+	branch = rock5b
+	shallow = false
 
 [submodule "tools"]
 	path = tools
