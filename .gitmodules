@@ -1,8 +1,8 @@
 [submodule "kernel-6.1"]
 	path = kernel-6.1
-	url = https://github.com/Augmented-Racing/kernel.git
-	branch = rock5b
-	shallow = false
+	url = https://github.com/rockchip-linux/kernel
+	branch = develop-6.1
+	shallow = true
 
 [submodule "u-boot"]
 	path = u-boot
