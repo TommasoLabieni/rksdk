@@ -1,1 +1,0 @@
-../scripts/post-os-release.sh

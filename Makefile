@@ -1,1 +1,0 @@
-device/rockchip/common/Makefile

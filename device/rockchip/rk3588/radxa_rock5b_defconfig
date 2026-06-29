@@ -1,5 +1,0 @@
-RK_UBOOT_CFG="rk3588-rock5b"
-RK_KERNEL_DTS_NAME="rk3588-rock-5b"
-RK_KERNEL_CFG_FRAGMENTS="rock5b.config"
-RK_YOCTO_MACHINE="rockchip-rk3588-rock5b"
-RK_YOCTO_EXTRA_CFG="rock5b-extra.conf"
