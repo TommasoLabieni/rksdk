@@ -1,3 +1,21 @@
+[submodule "kernel-6.1"]
+	path = kernel-6.1
+	url = https://github.com/rockchip-linux/kernel
+	branch = develop-6.1
+	shallow = true
+
+[submodule "u-boot"]
+	path = u-boot
+	url = https://github.com/rockchip-linux/u-boot
+	branch = next-dev
+	shallow = true
+
+[submodule "rkbin"]
+	path = rkbin
+	url = https://github.com/rockchip-linux/rkbin
+	branch = master
+	shallow = true
+
 [submodule "yocto/poky"]
 	path = yocto/poky
 	url = https://github.com/yoctoproject/poky
